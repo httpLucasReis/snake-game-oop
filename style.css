@@ -1,0 +1,19 @@
+* { 
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    background-image: linear-gradient(#7CFFCB, #7CFFCB);
+    
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#stage {
+    border: 1px solid black;
+}
