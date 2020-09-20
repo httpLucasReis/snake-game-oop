@@ -6,7 +6,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Snake = function () {
   // attributes
-  function Snake(_pX, _pY, _color, _vel, _velX, _velY, _tail, _trail, _size) {
+  function Snake(_pX, _pY, _color, _vel, _velX, _velY, _tail, _trail, _size, _keyCodeLeft, _keyCodeUp, _keyCodeRight, _keyCodeDown) {
     _classCallCheck(this, Snake);
 
     // Position
@@ -27,10 +27,16 @@ var Snake = function () {
     this.tail = _tail;
     this.trail = _trail;
     this.size = _size;
+
+    // Controls
+    this.keyPressed;
+    this.keyCodeLeft = _keyCodeLeft;
+    this.keyCodeUp = _keyCodeUp;
+    this.keyCodeRight = _keyCodeRight;
+    this.keyCodeDown = _keyCodeDown;
   }
 
   // methods
-
 
   _createClass(Snake, [{
     key: "move",
@@ -91,19 +97,23 @@ var Snake = function () {
     key: "modifyVel",
     value: function modifyVel(key) {
       switch (key) {
-        case "left":
+        case this.keyCodeLeft:
+          // Left
           this.velX = -this.vel;
           this.velY = 0;
           break;
-        case "up":
+        case this.keyCodeUp:
+          // Up
           this.velX = 0;
           this.velY = -this.vel;
           break;
-        case "right":
+        case this.keyCodeRight:
+          // Right
           this.velX = this.vel;
           this.velY = 0;
           break;
-        case "down":
+        case this.keyCodeDown:
+          // Down
           this.velX = 0;
           this.velY = this.vel;
           break;
@@ -165,25 +175,6 @@ var Stage = function () {
       this.context.fillRect(object.pX * object.size, object.pY * object.size, object.size, object.size);
     }
   }, {
-    key: "pressKey",
-    value: function pressKey(key) {
-      switch (key) {
-        case 37:
-          this.key = "left";
-          break;
-        case 38:
-          this.key = "up";
-          break;
-        case 39:
-          this.key = "right";
-          break;
-        case 40:
-          this.key = "down";
-        default:
-          break;
-      }
-    }
-  }, {
     key: "message",
     value: function message(color, font, text, pX, pY) {
       this.context.fillStyle = color;
@@ -212,27 +203,42 @@ var game = new Stage(canvas, "2d", 40);
 
 var background = new Background("black", 0, 0, 400);
 
-var s1 = new Snake(0, 0, "#1D8348", 1, 0, 0, 0, [], 10);
+var s1 = new Snake(0, 0, "#1D8348", 1, 0, 0, 0, [], 10, 37, 38, 39, 40);
+
+var s2 = new Snake(20, 20, "#1D8334", 1, 0, 0, 0, [], 10, 65, 87, 68, 83);
 
 var f1 = new Fruit("yellow", 5, 5, 10);
 
+console.log("\n    left: " + s1.keyCodeLeft + ",\n    up: " + s1.keyCodeUp + ",\n    right: " + s1.keyCodeRight + ",\n    down: " + s1.keyCodeDown + "\n\n");
+
+console.log("\n    left: " + s2.keyCodeLeft + ",\n    up: " + s2.keyCodeUp + ",\n    right: " + s2.keyCodeRight + ",\n    down: " + s2.keyCodeDown + "\n\n");
+
 // Events of keyboard
 document.addEventListener("keydown", function (event) {
-  game.pressKey(event.keyCode);
+  game.key = event.keyCode;
 });
 
 var loop = setInterval(function () {
   game.render(background);
   game.render(s1);
+  game.render(s2);
   game.render(f1);
 
   var hit = s1.move(game);
+  var hit2 = s2.move(game);
 
-  if (!hit) {
-    s1.modifyVel(game.keyPressed);
+  if (!hit && !hit2) {
+    s1.modifyVel(game.key);
+    s2.modifyVel(game.key);
+
     s1.modifyPosition();
+    s2.modifyPosition();
+
     s1.collisionScreen(game.amountP);
+    s2.collisionScreen(game.amountP);
+
     s1.collisionFruit(f1, game.amountP);
+    s2.collisionFruit(f1, game.amountP);
   } else {
     game.render(background);
     game.message("yellow", "700 20px Arial", "GAME OVER", 140, 210);

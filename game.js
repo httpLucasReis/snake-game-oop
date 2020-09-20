@@ -1,6 +1,6 @@
 class Snake {
   // attributes
-  constructor(_pX, _pY, _color, _vel, _velX, _velY, _tail, _trail, _size) {
+  constructor(_pX, _pY, _color, _vel, _velX, _velY, _tail, _trail, _size, _keyCodeLeft,_keyCodeUp, _keyCodeRight, _keyCodeDown) {
     // Position
     this.pX = _pX;
     this.pY = _pY;
@@ -19,9 +19,18 @@ class Snake {
     this.tail = _tail;
     this.trail = _trail;
     this.size = _size;
+
+    // Controls
+    this.keyPressed;
+    this.keyCodeLeft = _keyCodeLeft;
+    this.keyCodeUp = _keyCodeUp;
+    this.keyCodeRight = _keyCodeRight;
+    this.keyCodeDown = _keyCodeDown;
+
   }
 
   // methods
+
   move(game) {
     for (let i = 0; i < this.trail.length; i++) {
       game.context.fillRect(
@@ -81,19 +90,19 @@ class Snake {
 
   modifyVel(key) {
     switch (key) {
-      case "left":
+      case this.keyCodeLeft:   // Left
         this.velX = -this.vel;
         this.velY = 0;
         break;
-      case "up":
+      case this.keyCodeUp:     // Up
         this.velX = 0;
         this.velY = -this.vel;
-        break;
-      case "right":
+        break; 
+      case this.keyCodeRight:  // Right
         this.velX = this.vel;
         this.velY = 0;
         break;
-      case "down":
+      case this.keyCodeDown:   // Down
         this.velX = 0;
         this.velY = this.vel;
         break;
@@ -148,24 +157,6 @@ class Stage {
     );
   }
 
-  pressKey(key) {
-    switch (key) {
-      case 37:
-        this.key = "left";
-        break;
-      case 38:
-        this.key = "up";
-        break;
-      case 39:
-        this.key = "right";
-        break;
-      case 40:
-        this.key = "down";
-      default:
-        break;
-    }
-  }
-
   set key(key) {
     this.keyPressed = key;
   }
@@ -188,27 +179,52 @@ const game = new Stage(canvas, "2d", 40);
 
 const background = new Background("black", 0, 0, 400);
 
-const s1 = new Snake(0, 0, "#1D8348", 1, 0, 0, 0, [], 10);
+const s1 = new Snake(0, 0, "#1D8348", 1, 0, 0, 0, [], 10, 37, 38, 39, 40);
+
+const s2 = new Snake(20,20, "#1D8334", 1, 0, 0, 0, [], 10, 65, 87, 68, 83);
 
 const f1 = new Fruit("yellow", 5, 5, 10);
 
+console.log(`
+    left: ${s1.keyCodeLeft},
+    up: ${s1.keyCodeUp},
+    right: ${s1.keyCodeRight},
+    down: ${s1.keyCodeDown}\n
+`)
+
+console.log(`
+    left: ${s2.keyCodeLeft},
+    up: ${s2.keyCodeUp},
+    right: ${s2.keyCodeRight},
+    down: ${s2.keyCodeDown}\n
+`)
+
 // Events of keyboard
 document.addEventListener("keydown", (event) => {
-  game.pressKey(event.keyCode);
+  game.key = event.keyCode;
 });
 
 const loop = setInterval(() => {
   game.render(background);
   game.render(s1);
+  game.render(s2);
   game.render(f1);
-  
-  const hit = s1.move(game);
 
-  if (!hit) {
-    s1.modifyVel(game.keyPressed);
+  const hit = s1.move(game);
+  const hit2 = s2.move(game);
+
+  if (!hit && !hit2) {
+    s1.modifyVel(game.key);
+    s2.modifyVel(game.key);
+
     s1.modifyPosition();
+    s2.modifyPosition();
+
     s1.collisionScreen(game.amountP);
+    s2.collisionScreen(game.amountP);
+
     s1.collisionFruit(f1, game.amountP);
+    s2.collisionFruit(f1, game.amountP);
 
   } else {
     game.render(background);
