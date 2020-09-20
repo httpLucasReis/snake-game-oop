@@ -209,10 +209,6 @@ var s2 = new Snake(20, 20, "#1D8334", 1, 0, 0, 0, [], 10, 65, 87, 68, 83);
 
 var f1 = new Fruit("yellow", 5, 5, 10);
 
-console.log("\n    left: " + s1.keyCodeLeft + ",\n    up: " + s1.keyCodeUp + ",\n    right: " + s1.keyCodeRight + ",\n    down: " + s1.keyCodeDown + "\n\n");
-
-console.log("\n    left: " + s2.keyCodeLeft + ",\n    up: " + s2.keyCodeUp + ",\n    right: " + s2.keyCodeRight + ",\n    down: " + s2.keyCodeDown + "\n\n");
-
 // Events of keyboard
 document.addEventListener("keydown", function (event) {
   game.key = event.keyCode;

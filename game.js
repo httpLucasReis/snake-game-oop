@@ -185,20 +185,6 @@ const s2 = new Snake(20,20, "#1D8334", 1, 0, 0, 0, [], 10, 65, 87, 68, 83);
 
 const f1 = new Fruit("yellow", 5, 5, 10);
 
-console.log(`
-    left: ${s1.keyCodeLeft},
-    up: ${s1.keyCodeUp},
-    right: ${s1.keyCodeRight},
-    down: ${s1.keyCodeDown}\n
-`)
-
-console.log(`
-    left: ${s2.keyCodeLeft},
-    up: ${s2.keyCodeUp},
-    right: ${s2.keyCodeRight},
-    down: ${s2.keyCodeDown}\n
-`)
-
 // Events of keyboard
 document.addEventListener("keydown", (event) => {
   game.key = event.keyCode;
