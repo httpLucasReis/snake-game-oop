@@ -3,11 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <title>Snake game</title>
 </head>
 <body>
-    <canvas id="stage" width="400px" height="400px"></canvas>
-    <script src="./bundle.js"></script>
+    <div id="game">
+        <h1>SNAKE GAME</h1>
+        <canvas id="stage" width="400px" height="400px"></canvas>
+        <div id="controls">
+            <p>First player controls:  ← ↑ ↓ → </p>
+            <p>Second player controls: w s a d </p>
+        </div>
+        <button id="restart">Restart</button>
+        <script src="./bundle.js"></script>
+    </div>
 </body>
 </html>

@@ -2,18 +2,59 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    
+    font: 700 25px Roboto;
+    color: #1C2833;
+}
+
+html, body{
+    height: 100vh;
 }
 
 body {
-    height: 100vh;
-    background-image: linear-gradient(#7CFFCB, #7CFFCB);
+    background: #D5D8DC;
     
-
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+#game{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#game h1{
+    margin-bottom: 15px;
+}
+
+#game #controls {
+    text-align: center;
+    
+    margin-top: 25px;
+}
+
+#game #restart{
+    padding: 13px;
+
+    border: none;
+
+    outline: none;
+
+    background: #2ecc70ec;
+
+    border-radius: 8px;
+    
+    margin-top: 15px;
+}
+
+#game #restart:hover{
+    background: rgba(46, 204, 112, 0.618);
+}
+
 #stage {
     border: 1px solid black;
+    box-shadow: 1px 1px 7px 1px;
 }
