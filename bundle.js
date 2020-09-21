@@ -64,12 +64,16 @@ var Snake = function () {
     }
   }, {
     key: "collisionFruit",
-    value: function collisionFruit(fruit, distance) {
-      if (this.pX == fruit.pX && this.pY == fruit.pY) {
-        this.tail++;
-        fruit.pX = Math.floor(Math.random() * distance);
-        fruit.pY = Math.floor(Math.random() * distance);
-      }
+    value: function collisionFruit(fruits, distance) {
+      var _this = this;
+
+      fruits.forEach(function (fruit) {
+        if (_this.pX == fruit.pX && _this.pY == fruit.pY) {
+          _this.tail++;
+          fruit.pX = Math.floor(Math.random() * distance);
+          fruit.pY = Math.floor(Math.random() * distance);
+        }
+      });
     }
   }, {
     key: "collisionScreen",
@@ -168,24 +172,24 @@ var Stage = function () {
   _createClass(Stage, [{
     key: "render",
     value: function render(objects) {
-      var _this = this;
+      var _this2 = this;
 
       objects.forEach(function (object) {
-        _this.context.fillStyle = object.color;
-        _this.context.fillRect(object.pX * object.size, object.pY * object.size, object.size, object.size);
+        _this2.context.fillStyle = object.color;
+        _this2.context.fillRect(object.pX * object.size, object.pY * object.size, object.size, object.size);
       });
     }
   }, {
     key: "restart",
     value: function restart(snakes) {
-      var _this2 = this;
+      var _this3 = this;
 
       snakes.forEach(function (snake) {
         snake.hit = false;
         snake.velX = 1;
         snake.velY = 0;
-        snake.pX = Math.floor(Math.random() * _this2.amountP);
-        snake.pY = Math.floor(Math.random() * _this2.amountP);
+        snake.pX = Math.floor(Math.random() * _this3.amountP);
+        snake.pY = Math.floor(Math.random() * _this3.amountP);
         snake.tail = 0;
         snake.trail = [];
       });
@@ -247,8 +251,8 @@ function run() {
     s1.collisionScreen(game.amountP);
     s2.collisionScreen(game.amountP);
 
-    s1.collisionFruit(f1, game.amountP);
-    s2.collisionFruit(f1, game.amountP);
+    s1.collisionFruit([f1], game.amountP);
+    s2.collisionFruit([f1], game.amountP);
 
     game.message("#3498DB", "700 14px Arial", "First player: " + s1.trail.length, 40, 380);
     game.message("#E74C3C", "700 14px Arial", "Second player: " + s2.trail.length, 240, 380);
@@ -275,44 +279,3 @@ restartButton.addEventListener("click", function () {
   game.restart([s1, s2]);
   loop = setInterval(run, 50);
 });
-
-/* const loop = function() {
-
-  console.log(`Posição x: ${s1.pX} Posição Y: ${s1.pY}`);
-  game.render(background);
-  game.render(s1);
-  game.render(s2);
-  game.render(f1);
-
-  const hit = s1.move(game);
-  const hit2 = s2.move(game);
-
-  requestAnimationFrame(loop);
-
-  if (!hit && !hit2) {
-    s1.modifyVel(game.key);
-    s2.modifyVel(game.key);
-
-    s1.modifyPosition();
-    s2.modifyPosition();
-
-    s1.collisionScreen(game.amountP);
-    s2.collisionScreen(game.amountP);
-
-    s1.collisionFruit(f1, game.amountP);
-    s2.collisionFruit(f1, game.amountP);
-
-    game.message("#fff", "700 14px Arial", `First player: ${s1.trail.length}`, 40, 380);
-    game.message("#fff", "700 14px Arial", `Second player: ${s2.trail.length}`, 240, 380);
-
-  } else if(hit){
-    game.render(background);
-    game.message("yellow", "700 20px Arial", "Second player wins!", 110, 210);
-  } else {
-    game.render(background);
-    game.message("yellow", "700 20px Arial", "First player wins!", 120, 210);
-  }
-}
-
-requestAnimationFrame(loop);
- */

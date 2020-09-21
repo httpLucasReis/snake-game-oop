@@ -57,12 +57,14 @@ class Snake {
     }
   }
 
-  collisionFruit(fruit, distance) {
-    if (this.pX == fruit.pX && this.pY == fruit.pY) {
-      this.tail++;
-      fruit.pX = Math.floor(Math.random() * distance);
-      fruit.pY = Math.floor(Math.random() * distance);
-    }
+  collisionFruit(fruits, distance) {
+    fruits.forEach((fruit)=>{
+      if (this.pX == fruit.pX && this.pY == fruit.pY) {
+        this.tail++;
+        fruit.pX = Math.floor(Math.random() * distance);
+        fruit.pY = Math.floor(Math.random() * distance);
+      }
+    })
   }
 
   collisionScreen(totalPiece) {
@@ -194,7 +196,6 @@ const s2 = new Snake(25, 20, "#E74C3C", 1, 0, 0, 0, [], 10, 65, 87, 68, 83);
 
 const f1 = new Fruit("#FDFEFE", 5, 5, 10);
 
-
 // Events of keyboard
 document.addEventListener("keydown", (event) => {
   game.key = event.keyCode;
@@ -218,8 +219,8 @@ function run(){
     s1.collisionScreen(game.amountP);
     s2.collisionScreen(game.amountP);
 
-    s1.collisionFruit(f1, game.amountP);
-    s2.collisionFruit(f1, game.amountP);
+    s1.collisionFruit([f1], game.amountP);
+    s2.collisionFruit([f1], game.amountP);
 
     game.message("#3498DB", "700 14px Arial", `First player: ${s1.trail.length}`, 40, 380);
     game.message("#E74C3C", "700 14px Arial", `Second player: ${s2.trail.length}`, 240, 380);
@@ -249,43 +250,3 @@ restartButton.addEventListener("click", ()=>{
   loop = setInterval(run, 50);
 })
 
-/* const loop = function() {
-
-  console.log(`Posição x: ${s1.pX} Posição Y: ${s1.pY}`);
-  game.render(background);
-  game.render(s1);
-  game.render(s2);
-  game.render(f1);
-
-  const hit = s1.move(game);
-  const hit2 = s2.move(game);
-
-  requestAnimationFrame(loop);
-
-  if (!hit && !hit2) {
-    s1.modifyVel(game.key);
-    s2.modifyVel(game.key);
-
-    s1.modifyPosition();
-    s2.modifyPosition();
-
-    s1.collisionScreen(game.amountP);
-    s2.collisionScreen(game.amountP);
-
-    s1.collisionFruit(f1, game.amountP);
-    s2.collisionFruit(f1, game.amountP);
-
-    game.message("#fff", "700 14px Arial", `First player: ${s1.trail.length}`, 40, 380);
-    game.message("#fff", "700 14px Arial", `Second player: ${s2.trail.length}`, 240, 380);
-
-  } else if(hit){
-    game.render(background);
-    game.message("yellow", "700 20px Arial", "Second player wins!", 110, 210);
-  } else {
-    game.render(background);
-    game.message("yellow", "700 20px Arial", "First player wins!", 120, 210);
-  }
-}
-
-requestAnimationFrame(loop);
- */
